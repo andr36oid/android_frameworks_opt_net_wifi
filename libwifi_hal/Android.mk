@@ -22,7 +22,7 @@ wifi_hal_cflags := \
     -Wno-unused-function \
     -Wno-unused-parameter \
     -Wshadow \
-    -Wunused-variable \
+    -Wno-unused-variable \
     -Wwrite-strings
 ifdef WIFI_DRIVER_MODULE_PATH
 wifi_hal_cflags += -DWIFI_DRIVER_MODULE_PATH=\"$(WIFI_DRIVER_MODULE_PATH)\"
@@ -58,6 +58,10 @@ wifi_hal_cflags += -DWIFI_DRIVER_STATE_ON=\"$(WIFI_DRIVER_STATE_ON)\"
 endif
 ifdef WIFI_DRIVER_STATE_OFF
 wifi_hal_cflags += -DWIFI_DRIVER_STATE_OFF=\"$(WIFI_DRIVER_STATE_OFF)\"
+endif
+
+ifeq ($(MULTI_WIFI_SUPPORT), true)
+wifi_hal_cflags += -DMULTI_WIFI_SUPPORT
 endif
 
 # Common code shared between the HALs.
@@ -100,11 +104,12 @@ else ifeq ($(BOARD_WLAN_DEVICE), mrvl)
 else ifeq ($(BOARD_WLAN_DEVICE), MediaTek)
   # support MTK WIFI HAL
   LIB_WIFI_HAL := libwifi-hal-mt66xx
+else ifeq ($(BOARD_WLAN_DEVICE), rtl8812au)
+  # support realtek WIFI HAL
+  LIB_WIFI_HAL := libwifi-hal-rtl
 else ifeq ($(BOARD_WLAN_DEVICE), realtek)
   # support Realtek WIFI HAL
   LIB_WIFI_HAL := libwifi-hal-rtk
-else ifeq ($(BOARD_WLAN_DEVICE), emulator)
-  LIB_WIFI_HAL := libwifi-hal-emu
 else ifeq ($(BOARD_WLAN_DEVICE), slsi)
   LIB_WIFI_HAL := libwifi-hal-slsi
 endif

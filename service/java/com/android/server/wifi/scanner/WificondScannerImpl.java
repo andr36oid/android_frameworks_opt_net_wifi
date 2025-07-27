@@ -371,7 +371,9 @@ public class WificondScannerImpl extends WifiScannerImpl implements Handler.Call
                 if (timestamp_ms > mLastScanSettings.startTime) {
                     if (mLastScanSettings.singleScanFreqs.containsChannel(
                                     result.frequency)) {
-                        singleScanResults.add(result);
+                    // ODROID add result anyway.
+                    singleScanResults.add(result);
+                    //numFilteredScanResults++;
                     }
                 } else {
                     numFilteredScanResults++;
